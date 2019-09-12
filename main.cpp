@@ -11,7 +11,6 @@ void exibe_byte(bitset<8> byte){ // Printa vetor de bit
 
     for(int i = tam_byte-1; i >= 0; i--)
         cout<<byte[i]<<"  ";
-    cout<<endl;
 }
 
 /*------------------------------ FUNÇÕES QUESTÃO 1 ----------------------------*/
@@ -94,10 +93,6 @@ void paridade_bidimensional(){
         0b00111010
     };
 
-    cout<<"Dados do Transmitor :"<<endl<<endl;
-    for(int i = 0; i < 6; i++)
-        exibe_byte(dado_8bits_transmissor[i]);
-
     bitset<8> dado_8bits_receptor[6] = {
         0b10010011,
         0b11101110,
@@ -106,10 +101,6 @@ void paridade_bidimensional(){
         0b00000011,
         0b00111010
     };
-
-    cout<<endl<<"Dados do Receptor :"<<endl<<endl;
-    for(int i = 0; i < 6; i++)
-        exibe_byte(dado_8bits_receptor[i]);
 
     int qtd_1_transmissor_linhas[6], // Armazena a quantidade de '1's (uns) buscada nas linhas dos dado_8bits_transmissor
         qtd_1_receptor_linhas[6], // Armazena a quantidade de '1's (uns) buscada nas linhas em dado_8bits_receptor
@@ -165,19 +156,46 @@ void paridade_bidimensional(){
                     cout<<endl<<"Houve um erro na tramsmissao, e ele foi corrigido. ( Linha: "<<i<<" e Coluna: "<<j<<") "<<endl;
                     index_erro_linha = i;
                     index_erro_coluna = j;
-                    dado_8bits_receptor[i][j] = ~dado_8bits_receptor[i][j];
+                    //dado_8bits_receptor[i][j] = ~dado_8bits_receptor[i][j];
                     correcao = 1;
                     break;
                 }
     }
 
 
-    if(correcao){ // Se foi realizado uma correcao
-        // Exibe os valores corrigidos
-        cout<<endl<<"Dados do Receptor depois de corrigido:"<<endl<<endl;
-        for(int i = 0; i < 6; i++)
-        exibe_byte(dado_8bits_receptor[i]);
+    /* ----------- EXIBIÇÃO DOS VALORES -------------*/
+
+    // Dados  & bits de paridade (das linhas de dados) do Transmissor
+    cout<<"Dados do Transmitor :"<<endl<<endl;
+    for(int i = 0; i < 6; i++){
+        exibe_byte(dado_8bits_transmissor[i]);
+
+        cout<<"| "<<bits_paridade_linhas_transmissor[i]<<endl;
     }
+    cout<<"------------------------- "<<endl;
+
+    // Bits de paridade de (das Colunas de dados) do Transmissor
+    for(int i = 8-1; i >= 0; i--)
+        cout<<bits_paridade_colunas_transmissor[i]<<"  ";
+
+    cout<<endl;
+    if(correcao){ // Se foi realizado uma correcao
+        cout<<endl<<"Dados do Receptor depois de corrigido:"<<endl<<endl;
+    }
+
+    cout<<endl;
+
+    // Dados  & bits de paridade (das linhas de dados) do Receptor
+    for(int i = 0; i < 6; i++){
+        exibe_byte(dado_8bits_receptor[i]);
+
+        cout<<"| "<<aux_paridade_receptor_linhas[i]<<endl;
+    }
+    cout<<"------------------------- "<<endl;
+    // Bits de paridade de (das Colunas de dados) do Receptor
+    for(int i = 8-1; i >= 0; i--)
+        cout<<aux_paridade_receptor_colunas[i]<<"  ";
+    cout<<endl;
 }
 
 /*-----------------------------------------------------------------------------*/
@@ -298,7 +316,7 @@ void questao_3(){ // Main da questão 3
 
 int main(){
 	//paridade_unidimensional();
-	//paridade_bidimensional();
+    paridade_bidimensional();
 	//questao_2();
 	//questao_3();
     cout<<endl;
